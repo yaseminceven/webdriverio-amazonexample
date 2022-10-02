@@ -1,24 +1,17 @@
 const HomePage = require('../../pageobjects/home.page');
 
-describe('Homepage search tests', () => {
+describe('Search tests', () => {
+    var keywords = ["kitap","ayna","dolap"];
     before('open homepage and close cookies', async ()=> {
         await HomePage.open();
         await HomePage.cookieCloseButton.click();
     });
-
-    it('search with specific keyword', async () => {
-        await HomePage.searchKeyword('kitap');
-        await expect(HomePage.searchBox).toHaveValue('kitap',{ignoreCase:true});
-    });
-
-    it('scroll to deals', async ()=> {
-        await HomePage.deals.scrollIntoView();
-        await expect(HomePage.dealsText).toHaveText('Fırsatlar');
-    });
-
-    it('click on one of the deal', async ()=>{
-        await HomePage.deals.scrollIntoView();
-        await HomePage.clickDealCardItem(1);
+    keywords.forEach(async (keyword)=> {
+        it('search with '+keyword, async ()=> {
+            await HomePage.clearSearchbox();
+            await HomePage.searchKeyword(keyword);
+            await expect(HomePage.searchResult).toHaveText('"'+keyword+'"',{ignoreCase:true});
+        });
     });
 });
 

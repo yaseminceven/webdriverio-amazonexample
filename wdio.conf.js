@@ -1,3 +1,11 @@
+const url = require('./data/urls');
+const ENV = process.env.ENV;
+
+if(!ENV || !['dev','prod'].includes(ENV)){
+    console.log("Use specific environment: ENV=dev|prod");
+    process.exit;
+}
+
 exports.config = {
     //
     // ====================
@@ -24,6 +32,9 @@ exports.config = {
         './test/specs/**/*.js'
     ],
     suites: {
+        homepage: [
+            './test/specs/homepage/*.js'
+        ],
         search: [
             './test/specs/search/*.js'
         ]
